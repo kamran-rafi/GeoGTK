@@ -1,0 +1,23 @@
+# Build directories
+bin/
+obj/
+
+# Compiled files
+*.o
+*.out
+*.exe
+*.so
+
+# GTK / C build leftovers
+*.d
+
+# Code::Blocks files (since you have .cbp)
+*.layout
+*.depend
+
+# Temporary files
+*~
+*.swp
+
+# Logs
+*.log
