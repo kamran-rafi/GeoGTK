@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include "utils/logger.h"
 
 /**************
 * HELLO WORLD *
@@ -10,8 +11,13 @@ void greet(GtkWidget* widget, gpointer data){
 }
 
 // An event handler for closing application.
-void destroy(GtkWidget* widget, gpointer data){
-    g_print("CLEANING UP...");
+void destroy(GtkWindow* window, gpointer data){
+    info("Destroying window...");
+    gtk_window_close(window);
+}
+
+void quit(GtkWidget* widget, gpointer window){
+    gtk_window_close(window);
 }
 
 // This is our function where GUI of our application is initialized.
@@ -25,16 +31,27 @@ static void activate(GtkApplication *app, gpointer user_data){
     g_signal_connect(window, "destroy", G_CALLBACK(destroy), nullptr);
 
     /*
+     * Creating a centered aligned Container "Box"
+    */
+    GtkWidget* box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+    // Bit styling for box.
+    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
+
+    /*
      * Initialization of our button with click handler.
     */
     GtkWidget* button = gtk_button_new_with_label("Click Me");
     g_signal_connect(button, "clicked", G_CALLBACK(greet), "Kamran");
-    // Bit styling for button.
-    gtk_widget_set_halign(button, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(button, GTK_ALIGN_CENTER);
 
-    // Add button to our main window.
-    gtk_window_set_child(GTK_WINDOW(window), button);
+    GtkWidget* quitBtn = gtk_button_new_with_label("Quit");
+    g_signal_connect(quitBtn, "clicked", G_CALLBACK(quit), window);
+
+    // Add buttons to our box widget.
+    gtk_box_append(GTK_BOX(box), button);
+    gtk_box_append(GTK_BOX(box), quitBtn);
+
+    gtk_window_set_child(GTK_WINDOW(window), box);
 
     // Display our window.
     gtk_window_present(GTK_WINDOW (window));
