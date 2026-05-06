@@ -1,0 +1,21 @@
+.main-container {
+  background: #0c121e;
+  padding: 8px;
+}
+
+.toolbar-container {
+  background: #202c3c;
+  min-width: 42px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.weather-container {
+}
+
+.search-input {
+  background: #202c3c;
+  border: none;
+  outline: none;
+  color: #f6f6f6;
+}

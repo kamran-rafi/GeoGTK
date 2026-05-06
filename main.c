@@ -1,14 +1,7 @@
 #include <gtk/gtk.h>
 #include "utils/logger.h"
-
-/**************
-* HELLO WORLD *
-**************/
-
-// An event handler for GTK app must have these two params.
-void greet(GtkWidget* widget, gpointer data){
-    g_print("Welcome, %s!\n", (char*)data);
-}
+#include "utils/constants.h"
+#include "widgets/widgets.h"
 
 // An event handler for closing application.
 void destroy(GtkWindow* window, gpointer data){
@@ -16,87 +9,61 @@ void destroy(GtkWindow* window, gpointer data){
     gtk_window_close(window);
 }
 
-void quit(GtkWidget* widget, gpointer window){
-    gtk_window_close(window);
+// Call it to apply styles to our styling to User Interface.
+void load_style(){
+    GtkCssProvider* provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(provider, "styles/global.css");
+    gtk_style_context_add_provider_for_display(
+        gdk_display_get_default(),
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+    );
 }
 
-void save(GtkWidget* widget, gpointer input){
-
-    GtkEntryBuffer* buffer = gtk_entry_get_buffer(input);
-
-    info(gtk_entry_buffer_get_text(buffer));
-}
-
-// This is our function where GUI of our application is initialized.
-static void activate(GtkApplication *app, gpointer user_data){
+// Builds UI and displays windows on screen.
+void activate(GtkApplication* weatherApp){
+    // Creating a main window which contains our widgets for interaction.
+    GtkWidget* window = gtk_application_window_new(weatherApp);
     /*
-     * Initialization of our main window with some style and info.
+     * Setting some default styling for window.
     */
-    GtkWidget* window = gtk_application_window_new(app);
-    gtk_window_set_title (GTK_WINDOW (window), "Weather");
-    gtk_window_set_default_size (GTK_WINDOW (window), 240, 320);
+    gtk_window_set_title(GTK_WINDOW(window), "WeatherGTK");
+    gtk_window_set_default_size(GTK_WINDOW(window), WIDTH, HEIGHT);
+    load_style();
+    // Window close handler...
     g_signal_connect(window, "destroy", G_CALLBACK(destroy), nullptr);
 
-    /*
-     * Creating a centered aligned Container "Box"
-    */
-    GtkWidget* box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
-    // Bit styling for box.
-    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
+    // This is our main box and everything all the intractive elements would be inside it.
+    GtkWidget* hBoxMain = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 8);
+    gtk_widget_add_css_class(hBoxMain, "main-container");
+    gtk_widget_set_hexpand(hBoxMain, TRUE);
 
-    /*
-     * Initialization of our button with click handler.
-    */
-    GtkWidget* button = gtk_button_new_with_label("Click Me");
-    g_signal_connect(button, "clicked", G_CALLBACK(greet), "Kamran");
+    gtk_box_append(GTK_BOX(hBoxMain), toolbar_container());
+    gtk_box_append(GTK_BOX(hBoxMain), weather_container());
 
-    GtkWidget* quitBtn = gtk_button_new_with_label("Quit");
-    g_signal_connect(quitBtn, "clicked", G_CALLBACK(quit), window);
-
-    // Add buttons to our box widget.
-    gtk_box_append(GTK_BOX(box), button);
-    gtk_box_append(GTK_BOX(box), quitBtn);
-
-    // GtkEntryBuffer* inputBuffer = gtk_entry_buffer_new("Hello, Input Buffer!", 20);
-
-    // g_print("%s",gtk_entry_buffer_get_text(inputBuffer));
-
-    GtkWidget* input = gtk_entry_new();
-
-    //* inputBuffer = gtk_entry_get_buffer(input);
-
-    gtk_box_append(GTK_BOX(box), input);
-
-    GtkWidget* btnSave = gtk_button_new_with_label("Save");
-    g_signal_connect(btnSave, "clicked", G_CALLBACK(save), input);
-
-    gtk_box_append(GTK_BOX(box), btnSave);
-
-    gtk_window_set_child(GTK_WINDOW(window), box);
-
-    // Display our window.
-    gtk_window_present(GTK_WINDOW (window));
+    gtk_window_set_child(GTK_WINDOW(window), hBoxMain);
+    // Display the window.
+    gtk_window_present(GTK_WINDOW(window));
 }
 
 int main (int argc, char *argv[])
 {
     /*
-     * Create a new application using gtk_application_new(String, FLAGS)
-     * which returns a pointer to our GTK Application.
+     * Create a new application using gtk_application_new(String, FLAGS).
     */
-    GtkApplication *app = gtk_application_new("weather.sudo.sama", G_APPLICATION_DEFAULT_FLAGS);
+    GtkApplication* weatherApp = gtk_application_new("weather.sudo.sama", G_APPLICATION_DEFAULT_FLAGS);
+
     // Now we will activate our application and attach widgets to it.
-    g_signal_connect(app, "activate", G_CALLBACK(activate), nullptr);
+    g_signal_connect(weatherApp, "activate", G_CALLBACK(activate), nullptr);
 
     /*
-     * Now we run our application and after application run
-     * is finished a status code of int is returned.
+     * Start Application after full setup.
+     * Once finished a status code is returned indicating Success "0" or failure.
     */
-    int status = g_application_run(G_APPLICATION(app), argc, argv);
+    int status = g_application_run(G_APPLICATION(weatherApp), argc, argv);
 
     // Clear up memory of our application.
-    g_object_unref(app);
+    g_object_unref(weatherApp);
 
     return status;
 }
