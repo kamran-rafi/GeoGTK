@@ -13,6 +13,22 @@
 .weather-container {
 }
 
+.current-weather-location {
+  font-size: 42px;
+  font-weight: bold;
+  color: #f6f6f6;
+}
+
+.current-weather-temperature {
+  font-size: 48px;
+  font-weight: bolder;
+  color: #f6f6f6;
+}
+
+.current-weather-icon:hover {
+  background-color: palegreen;
+}
+
 .search-input {
   background: #202c3c;
   border: none;
