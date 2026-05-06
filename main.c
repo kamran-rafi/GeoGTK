@@ -20,6 +20,13 @@ void quit(GtkWidget* widget, gpointer window){
     gtk_window_close(window);
 }
 
+void save(GtkWidget* widget, gpointer input){
+
+    GtkEntryBuffer* buffer = gtk_entry_get_buffer(input);
+
+    info(gtk_entry_buffer_get_text(buffer));
+}
+
 // This is our function where GUI of our application is initialized.
 static void activate(GtkApplication *app, gpointer user_data){
     /*
@@ -50,6 +57,21 @@ static void activate(GtkApplication *app, gpointer user_data){
     // Add buttons to our box widget.
     gtk_box_append(GTK_BOX(box), button);
     gtk_box_append(GTK_BOX(box), quitBtn);
+
+    // GtkEntryBuffer* inputBuffer = gtk_entry_buffer_new("Hello, Input Buffer!", 20);
+
+    // g_print("%s",gtk_entry_buffer_get_text(inputBuffer));
+
+    GtkWidget* input = gtk_entry_new();
+
+    //* inputBuffer = gtk_entry_get_buffer(input);
+
+    gtk_box_append(GTK_BOX(box), input);
+
+    GtkWidget* btnSave = gtk_button_new_with_label("Save");
+    g_signal_connect(btnSave, "clicked", G_CALLBACK(save), input);
+
+    gtk_box_append(GTK_BOX(box), btnSave);
 
     gtk_window_set_child(GTK_WINDOW(window), box);
 
