@@ -38,10 +38,19 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="styles/global.css" />
+		<Unit filename="utils/constants.h" />
 		<Unit filename="utils/logger.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="utils/logger.h" />
+		<Unit filename="widgets/toolbar_container.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="widgets/weather_container.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="widgets/widgets.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

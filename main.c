@@ -12,7 +12,7 @@ void destroy(GtkWindow* window, gpointer data){
 // Call it to apply styles to our styling to User Interface.
 void load_style(){
     GtkCssProvider* provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(provider, "styles/global.css");
+    gtk_css_provider_load_from_path(provider, "/home/kamran/Projects/Weather/styles/global.css");
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),
         GTK_STYLE_PROVIDER(provider),
