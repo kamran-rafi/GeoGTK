@@ -12,8 +12,6 @@ GtkWidget* get_parsed_svg_icon(char* icPath, int icSize){
     );
     GtkWidget* icon = gtk_image_new_from_paintable(GDK_PAINTABLE(tex));
     gtk_image_set_pixel_size(GTK_IMAGE(icon), icSize);
-    gtk_widget_set_halign(icon, GTK_ALIGN_END);
-    gtk_widget_set_hexpand(icon, TRUE);
     return icon;
 }
 
@@ -45,6 +43,8 @@ GtkWidget* today_weather_current(){
 
     // START: Icon Widget
     GtkWidget* icon = get_parsed_svg_icon("/home/kamran/Projects/Weather/assets/placeholder.svg", 128);
+    gtk_widget_set_halign(icon, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(icon, TRUE);
     gtk_widget_add_css_class(icon, "current-weather-icon");
     // END: Icon Widget
 
@@ -57,11 +57,50 @@ GtkWidget* today_weather_current(){
     return currentWeatherContainer;
 }
 
+GtkWidget* today_weather_condition_item(char* title, char* text){
+    GtkWidget* weatherConditionItem = gtk_box_new(GTK_ORIENTATION_VERTICAL, PADDING);
+    gtk_widget_add_css_class(weatherConditionItem, "today-weather-condition-item");
+    gtk_widget_set_hexpand(weatherConditionItem, TRUE);
+
+    GtkWidget* icon = get_parsed_svg_icon("/home/kamran/Projects/Weather/assets/placeholder.svg", 42);
+    gtk_widget_add_css_class(icon, "weather-condition-icon");
+    GtkWidget* type = gtk_label_new(title);
+    gtk_widget_add_css_class(type, "today-weather-condition-item-type");
+    GtkWidget* result = gtk_label_new(text);
+    gtk_widget_add_css_class(result, "today-weather-condition-item-result");
+
+    gtk_box_append(GTK_BOX(weatherConditionItem), icon);
+    gtk_box_append(GTK_BOX(weatherConditionItem), type);
+    gtk_box_append(GTK_BOX(weatherConditionItem), result);
+
+    return weatherConditionItem;
+}
+
 // Todo!!!!!!!!!!
 GtkWidget* today_weather_condition(){
-    GtkWidget* weatherConditionContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, PADDING);
+    GtkWidget* weatherConditionContainer = gtk_grid_new();
     gtk_widget_set_hexpand(weatherConditionContainer, TRUE);
     gtk_widget_add_css_class(weatherConditionContainer, "today-weather-condition");
+
+
+    // Grid, Child, Col, Row, Col-Span, Row-Span
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Wind", "7.6 KM/h"), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Humidity", "48%"), 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Visibility", "5.0 KM"), 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("UV Index", "0.0"), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Precipitation", "0.0 in"), 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Clouds", "0"), 2, 1, 1, 1);
+
+    // Create widgets
+    // GtkWidget *button1 = gtk_button_new_with_label("Button 1");
+    // GtkWidget *button2 = gtk_button_new_with_label("Button 2");
+    // GtkWidget *button3 = gtk_button_new_with_label("Button 3");
+
+    // Attach widgets (col, row, width, height)
+    // gtk_grid_attach(GTK_GRID(weatherConditionContainer), button1, 0, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(weatherConditionContainer), button2, 1, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(weatherConditionContainer), button3, 0, 1, 2, 1);
+
 
     return weatherConditionContainer;
 }

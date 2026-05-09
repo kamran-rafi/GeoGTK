@@ -2,8 +2,10 @@
   --main-bg: #0c121e;
   --main-pd: 8px;
   --main-rd: 8px;
+  --main-mg: 8px;
   --main-bg-surface: #202c3c;
   --main-cl-text: #f6f6f6;
+  --lite-cl-text: #828E9E;
 }
 
 /* This is style for root container. */
@@ -31,11 +33,27 @@
 }
 
 .today-weather-condition {
-  min-height: 256px;
   background: var(--main-bg-surface);
   padding: var(--main-pd);
   border-radius: var(--main-rd);
 }
+
+
+.today-weather-condition-item {
+  margin: var(--main-mg);
+  padding: var(--main-pd);
+}
+
+.today-weather-condition-item-type {
+  color: var(--lite-cl-text);
+}
+
+.today-weather-condition-item-result {
+  color: var(--main-cl-text);
+  font-size: 18px;
+  font-weight: bolder;
+}
+
 
 .today-weather-hourly {
   min-height: 256px;
