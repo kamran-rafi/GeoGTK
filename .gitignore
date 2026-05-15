@@ -21,3 +21,7 @@ obj/
 
 # Logs
 *.log
+
+.cache
+
+compile_commands.json
