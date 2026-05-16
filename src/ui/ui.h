@@ -8,7 +8,8 @@ GtkWidget* render_page();
 
 typedef enum {
     WEATHER_PAGE,
-    SETTINGS_PAGE
+    SETTINGS_PAGE,
+    EARTHQUAKE_PAGE
 } Pages;
 
 void set_page(Pages page);

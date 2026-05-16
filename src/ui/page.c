@@ -3,6 +3,7 @@
 */
 
 #include <gtk/gtk.h>
+#include "glib.h"
 #include "ui.h"
 #include "pages/pages.h"
 #include "../utils/logger.h"
@@ -19,6 +20,9 @@ void set_page(Pages page){
     switch (page) {
         case WEATHER_PAGE: 
             gtk_box_append(GTK_BOX(APP_STATE.page_container), weather_page());
+            break;
+        case EARTHQUAKE_PAGE:
+            gtk_box_append(GTK_BOX(APP_STATE.page_container), earthquake_page());
             break;
         case SETTINGS_PAGE: 
             gtk_box_append(GTK_BOX(APP_STATE.page_container), settings_page());

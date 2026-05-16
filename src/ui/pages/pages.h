@@ -2,6 +2,7 @@
 #define PAGES_H_INCLUDED
 
 GtkWidget* weather_page();
+GtkWidget* earthquake_page();
 GtkWidget* settings_page();
 
 #endif

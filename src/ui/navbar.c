@@ -34,6 +34,13 @@ void weather_handler(GtkWidget* widget, gpointer data)
     toggle_button_focus(widget);
 }
 
+// Display the weather page inside the page container.
+void earthquake_handler(GtkWidget* widget, gpointer data)
+{
+    set_page(EARTHQUAKE_PAGE);
+    toggle_button_focus(widget);
+}
+
 // Display the settings page inside the page container.
 void settings_handler(GtkWidget* widget, gpointer data){
     set_page(SETTINGS_PAGE);
@@ -65,17 +72,12 @@ GtkWidget* get_nav_button(const char* title,char* icPath, void (*func)(GtkWidget
     return button;
 }
 
-/*
- * Todo:
- * 1- Add buttons for different pages.
- * 2- Clicking a button highlights that button.
- * 3- Clicking a button switches the page.
-*/
+// Navigation bar rendered on left side of page.
 GtkWidget* navbar(){
     GtkWidget* navbar = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
     gtk_widget_add_css_class(navbar, "navbar");
 
-    GtkWidget* weatherButton = get_nav_button("Weather", "/home/kamran/Projects/GeoGTK/src/assets/placeholder.svg", weather_handler);
+    GtkWidget* weatherButton = get_nav_button("Weather", "/home/kamran/Projects/GeoGTK/src/assets/weather.svg", weather_handler);
     // To make sure intial button is active when app is restarted.
     if(!APP_STATE.prev_focused_button){
         toggle_button_focus(weatherButton);
@@ -83,7 +85,7 @@ GtkWidget* navbar(){
 
     // These buttons appear at top of navbar.
     gtk_box_append(GTK_BOX(navbar), weatherButton);
-    
+    gtk_box_append(GTK_BOX(navbar), get_nav_button("Quakes", "/home/kamran/Projects/GeoGTK/src/assets/earthquake.svg", earthquake_handler));
     // Adds a space between top and bottom buttons of navbar.
     GtkWidget* spacer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_vexpand(spacer, TRUE);
