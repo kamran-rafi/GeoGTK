@@ -53,7 +53,7 @@ void settings_handler(GtkWidget* widget, gpointer data){
  * icPath: String path of icon to show inside the button.
  * callbackFunc: Function pointer to execute specific function when button is pressed.
 */
-GtkWidget* get_nav_button(const char* title,char* icPath, void(*callbacFunc)(GtkWidget*, gpointer)){
+GtkWidget* get_nav_button(const char* title,char* icPath, void(*callbackFunc)(GtkWidget*, gpointer)){
      GtkWidget* button = gtk_button_new();
      gtk_widget_add_css_class(button, "nav-button");
      gtk_widget_set_cursor_from_name(button, "pointer");
