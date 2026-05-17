@@ -24,6 +24,7 @@ window {
   background: var(--main-bg-surface);
   padding: var(--main-pd);
   border-radius: var(--main-rd);
+  border: 2px solid var(--main-bg-active);
 }
 
 .nav-button{
@@ -49,3 +50,27 @@ window {
   color: var(--lite-cl-text);
 }
 /* END: Navigation Bar */
+
+/* START: Input Widget */
+.read-input {
+  background: var(--main-bg-surface);
+  font-size: 24px;
+  padding: 8px 16px;
+  font-weight: 500;
+  border: 2px solid var(--main-bg-active);
+  outline: none;
+  color: var(--main-cl-text);
+}
+.read-button {
+  background: var(--main-bg-surface);
+  font-size: 24px;
+  padding: 8px 16px;
+  font-weight: 400;
+  border: 2px solid var(--main-bg-active);
+  outline: none;
+  color: var(--main-cl-text);
+}
+.read-button:hover {
+  background: var(--main-bg-hover);
+}
+/* END: Input Widget */
