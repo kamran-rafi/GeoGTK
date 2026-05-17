@@ -3,7 +3,6 @@
 */
 
 #include <gtk/gtk.h>
-#include "glib.h"
 #include "ui.h"
 #include "pages/pages.h"
 #include "../utils/logger.h"
@@ -17,18 +16,18 @@ void set_page(Pages page){
         gtk_box_remove(GTK_BOX(APP_STATE.page_container), APP_STATE.current_page);
     }
 
+    // Set the PAGE_STATE.current_page depending on the selected page.
     switch (page) {
-        case WEATHER_PAGE: 
-            gtk_box_append(GTK_BOX(APP_STATE.page_container), weather_page());
-            break;
-        case EARTHQUAKE_PAGE:
-            gtk_box_append(GTK_BOX(APP_STATE.page_container), earthquake_page());
-            break;
-        case SETTINGS_PAGE: 
-            gtk_box_append(GTK_BOX(APP_STATE.page_container), settings_page());
-            break;
-        default: log_error("Invalid page selection. Check your Pages enum!"); break;
+        case WEATHER_PAGE:    APP_STATE.current_page = weather_page();    break;
+        case EARTHQUAKE_PAGE: APP_STATE.current_page = earthquake_page(); break;
+        case SETTINGS_PAGE:   APP_STATE.current_page = settings_page();   break;
+        default: // Inavide page selection early quits the set_page function.
+            log_error("Invalid page selection. Check your Pages enum!"); 
+        return;
     }
+
+    // Display the current page after setting APP_STATE.current_page.
+    gtk_box_append(GTK_BOX(APP_STATE.page_container), APP_STATE.current_page);
 }
 
 // Render Page container and inside this container render required page.
