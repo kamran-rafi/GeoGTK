@@ -51,10 +51,12 @@ void settings_handler(GtkWidget* widget, gpointer data){
  * Returns a custom widget which is used a a button for navigation bar.
  * title: String to give title to button.
  * icPath: String path of icon to show inside the button.
+ * callbackFunc: Function pointer to execute specific function when button is pressed.
 */
-GtkWidget* get_nav_button(const char* title,char* icPath, void (*func)(GtkWidget*, gpointer)){
+GtkWidget* get_nav_button(const char* title,char* icPath, void(*callbacFunc)(GtkWidget*, gpointer)){
      GtkWidget* button = gtk_button_new();
      gtk_widget_add_css_class(button, "nav-button");
+     gtk_widget_set_cursor_from_name(button, "pointer");
 
     GtkWidget* buttonContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE/2 /*Half the space between childs*/ );
 
@@ -67,7 +69,7 @@ GtkWidget* get_nav_button(const char* title,char* icPath, void (*func)(GtkWidget
     gtk_box_append(GTK_BOX(buttonContainer), label);
 
     gtk_button_set_child(GTK_BUTTON(button), buttonContainer);
-    g_signal_connect(button, "clicked", G_CALLBACK(func), NULL);
+    g_signal_connect(button, "clicked", G_CALLBACK(callbackFunc), NULL);
 
     return button;
 }
