@@ -60,6 +60,7 @@ window {
   border: 2px solid var(--main-bg-active);
   outline: none;
   color: var(--main-cl-text);
+  border-radius: var(--main-rd);
 }
 .read-button {
   background: var(--main-bg-surface);
@@ -69,6 +70,7 @@ window {
   border: 2px solid var(--main-bg-active);
   outline: none;
   color: var(--main-cl-text);
+  border-radius: var(--main-rd);
 }
 .read-button:hover {
   background: var(--main-bg-hover);
