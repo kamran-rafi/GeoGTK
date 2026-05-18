@@ -50,43 +50,50 @@ GtkWidget* current_location_temperature(){
     return root;
 }
 
-GtkWidget* today_weather_condition_item(char* title, char* text){
-    GtkWidget* weatherConditionItem = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
-    gtk_widget_add_css_class(weatherConditionItem, "today-weather-condition-item");
-    gtk_widget_set_hexpand(weatherConditionItem, TRUE);
+/*
+ * Creates and returns a weather condition Item to be shown inside the current_condtion() container.
+*/
+GtkWidget* current_condition_item(const char* title,const char* text){
+    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE/2 /* Half space compared to make spacing. */);
+    gtk_widget_add_css_class(root, "current-condition-item");
+    gtk_widget_set_hexpand(root, TRUE);
 
     GtkWidget* icon = get_icon("/home/kamran/Projects/GeoGTK/src/assets/placeholder.svg", 42);
-    gtk_widget_add_css_class(icon, "weather-condition-icon");
+    gtk_widget_add_css_class(icon, "current-condition-item-icon");
+
     GtkWidget* type = gtk_label_new(title);
-    gtk_widget_add_css_class(type, "today-weather-condition-item-type");
-    GtkWidget* result = gtk_label_new(text);
-    gtk_widget_add_css_class(result, "today-weather-condition-item-result");
+    gtk_widget_add_css_class(type, "current-condition-item-type");
 
-    gtk_box_append(GTK_BOX(weatherConditionItem), icon);
-    gtk_box_append(GTK_BOX(weatherConditionItem), type);
-    gtk_box_append(GTK_BOX(weatherConditionItem), result);
+    GtkWidget* data = gtk_label_new(text);
+    gtk_widget_add_css_class(data, "current-condition-item-data");
 
-    return weatherConditionItem;
+    gtk_box_append(GTK_BOX(root), icon);
+    gtk_box_append(GTK_BOX(root), type);
+    gtk_box_append(GTK_BOX(root), data);
+
+    return root;
 }
 
+/*
+ * Renders widgets inside a container to show current weather condition.
+*/
+GtkWidget* current_condition(){
 
-GtkWidget* today_weather_condition(){
-    GtkWidget* weatherConditionContainer = gtk_grid_new();
-    gtk_widget_set_hexpand(weatherConditionContainer, TRUE);
-    gtk_widget_add_css_class(weatherConditionContainer, "today-weather-condition");
+    log_debug("Rendering current condition...");
 
+    GtkWidget* root = gtk_grid_new();
+    gtk_widget_set_hexpand(root, TRUE);
+    gtk_widget_add_css_class(root, "current-condition-container");
 
     // Grid, Child, Col, Row, Col-Span, Row-Span
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Wind", "7.6 KM/h"), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Humidity", "48%"), 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Visibility", "5.0 KM"), 2, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("UV Index", "0.0"), 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Precipitation", "0.0 in"), 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(weatherConditionContainer), today_weather_condition_item("Clouds", "0"), 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("Wind", "7.6 KM/h"), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("Humidity", "48%"), 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("Visibility", "5.0 KM"), 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("UV Index", "0.0"), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("Precipitation", "0.0 in"), 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(root), current_condition_item("Clouds", "0"), 2, 1, 1, 1);
 
-
-
-    return weatherConditionContainer;
+    return root;
 }
 
 GtkWidget* display_weather(){
@@ -94,7 +101,7 @@ GtkWidget* display_weather(){
     gtk_widget_set_hexpand(root, TRUE);
 
     gtk_box_append(GTK_BOX(root), current_location_temperature());
-    gtk_box_append(GTK_BOX(root), today_weather_condition());
+    gtk_box_append(GTK_BOX(root), current_condition());
 
     return root;
 }
@@ -103,7 +110,7 @@ GtkWidget* display_weather(){
  * Todos: 
  * 1- [DONE] Add a Location Search Input.
  * 2- [DONE] Add Current Weather Temperature and Location Info.
- * 3- [PENDING] Add current Weather Condition Container.
+ * 3- [DONE] Add current Weather Condition Container.
  * 4- [PENDING] Add Hourly Weather Forcast Container. 
  * 5- [PENDING] Add Daily Weather Forcast Container.
 */
