@@ -10,6 +10,11 @@
   --lite-cl-text: #828E9E;
 }
 
+*{
+  margin: 0;
+  padding: 0;
+}
+
 window {
     background: var(--main-bg);
 }
@@ -76,3 +81,16 @@ window {
   background: var(--main-bg-hover);
 }
 /* END: Input Widget */
+
+/* START: Current Location & Temperature */
+.current-location{
+  font-size: 42px;
+  font-weight: bold;
+  color: var(--main-cl-text);
+}
+.current-temperature {
+  font-size: 56px;
+  font-weight: bolder;
+  color: var(--main-cl-text);
+}
+/* END: Current Location & Temperature */
