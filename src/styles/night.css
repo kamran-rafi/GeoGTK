@@ -100,6 +100,7 @@ window {
   background: var(--main-bg-surface);
   padding: var(--main-pd);
   border-radius: var(--main-rd);
+  border: 2px solid var(--main-bg-active);
 }
 .current-condition-item {
   margin: var(--main-mg);
@@ -118,3 +119,20 @@ window {
   font-weight: bolder;
 }
 /* END: Current Condition */
+
+/* START: Hourly Forecast */
+.hourly-forecast-container {
+  background: var(--main-bg-surface);
+  padding: var(--main-pd);
+  border-radius: var(--main-rd);
+  border: 2px solid var(--main-bg-active);
+}
+/* END: Hourly Forecast */
+
+/* TEMP */
+.right {
+  background: var(--main-bg-surface);
+  padding: var(--main-pd);
+  border-radius: var(--main-rd);
+  border: 2px solid var(--main-bg-active);
+}

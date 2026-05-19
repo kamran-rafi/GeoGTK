@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 
-SRC = main.c src/app.c src/utils/*.c src/ui/*.c src/ui/components/*.c src/ui/pages/*.c
+SRC = main.c src/app.c src/utils/*.c src/core/*.c src/ui/*.c src/ui/components/*.c src/ui/pages/*.c
 OUT = build/main.out
 
 all:
