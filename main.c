@@ -20,7 +20,5 @@ int main(int argc, char* argv[]){
     */
     int app_status = app(argc, argv);
 
-    log_info("Exited with status: %d", app_status);
-
     return app_status;
 }
