@@ -5,8 +5,8 @@ GeoGTK is Geo related software being built using C-Language. It uses the followi
 
 * GTK Library for UI.
 * libcurl for HTTP communication.
-* cJSON for parsing JSON data.
-* Weather API
+* [cJSON Library](https://github.com/DaveGamble/cJSON/) for parsing JSON data.
+* Free Weather API
 
 
 ## Features
