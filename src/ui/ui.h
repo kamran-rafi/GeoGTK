@@ -1,6 +1,8 @@
 #ifndef UI_H_INCLUDED
 #define UI_H_INCLUDED
 
+#include <gtk/gtk.h>
+
 GtkWidget* navbar();
 GtkWidget* render_page();
 

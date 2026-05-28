@@ -1,6 +1,8 @@
 #ifndef APP_H_INCLUDED
 #define APP_H_INCLUDED
 
+#include <gtk/gtk.h>
+
 int app(int argc, char *argv[]);
 
 /* 
