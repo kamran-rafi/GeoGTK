@@ -3,11 +3,16 @@
 */
 
 #include <gtk/gtk.h>
+#include <stdlib.h>
 #include "../components/components.h"
 #include "../../utils/logger.h"
+#include "glibconfig.h"
 #include "gtk/gtkshortcut.h"
 #include "../ui.h"
 #include "../components/components.h"
+#include "../../models/weather.h"
+#include "../../core/core.h"
+#include "../../utils/formatter.h"
 
 
 /*
@@ -22,7 +27,7 @@ void search_location(GtkWidget* widget, gpointer input){
 /*
  * Render current location and temperature.
 */
-GtkWidget* current_location_temperature(){
+GtkWidget* current_location_temperature(WeatherModel* weatherData){
     log_debug("Rendering current location and temperature...");
 
     GtkWidget* root = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACE);
@@ -30,14 +35,20 @@ GtkWidget* current_location_temperature(){
 
     // Location and Temperature are shown in vertical widgets on left side.
     GtkWidget* locationAndTempratureContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    GtkWidget* location = gtk_label_new("Arifwala, Pk");
+    // Location
+    char* formattedLocation = get_formatted_location(weatherData->location);
+    GtkWidget* location = gtk_label_new(formattedLocation);
     gtk_widget_add_css_class(location, "current-location");
-    GtkWidget* temperature = gtk_label_new("36°C");
+    free(formattedLocation); // Clear memory.
+    /////////////
+    // Temperature
+    char* formattedTemperature = get_formatted_temperature(weatherData->current.temperature);
+    GtkWidget* temperature = gtk_label_new(formattedTemperature);
     gtk_widget_add_css_class(temperature, "current-temperature");
     gtk_label_set_xalign(GTK_LABEL(temperature), 0.0);
     gtk_box_append(GTK_BOX(locationAndTempratureContainer), location);
     gtk_box_append(GTK_BOX(locationAndTempratureContainer), temperature);
-
+    free(formattedTemperature); // Clear memory.
     // Icon is shown on right side.
     GtkWidget* icon = get_icon("/home/kamran/Projects/GeoGTK/src/assets/placeholder.svg", 88);
     gtk_widget_set_halign(icon, GTK_ALIGN_END);
@@ -77,7 +88,7 @@ GtkWidget* current_condition_item(const char* title,const char* text){
 /*
  * Renders widgets inside a container to show current weather condition.
 */
-GtkWidget* current_condition(){
+GtkWidget* current_condition(WeatherModel* weatherData){
 
     log_debug("Rendering current condition...");
 
@@ -96,12 +107,37 @@ GtkWidget* current_condition(){
     return root;
 }
 
-GtkWidget* display_weather(){
-    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
+GtkWidget* hourly_forecast(){
+
+    log_debug("Rending hourly forecast...");
+
+    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACE);
+    gtk_widget_set_hexpand(root, TRUE);
+    gtk_widget_set_vexpand(root, TRUE);
+    gtk_widget_add_css_class(root, "hourly-forecast-container");
+
+    return root;
+}
+
+GtkWidget* display_weather(WeatherModel* weatherData){
+    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACE);
     gtk_widget_set_hexpand(root, TRUE);
 
-    gtk_box_append(GTK_BOX(root), current_location_temperature());
-    gtk_box_append(GTK_BOX(root), current_condition());
+    // Weather data is devided into left and right sections.
+
+    GtkWidget* left = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
+    gtk_widget_set_hexpand(left, TRUE);
+    gtk_box_append(GTK_BOX(left), current_location_temperature(weatherData));
+    gtk_box_append(GTK_BOX(left), current_condition(weatherData));
+    gtk_box_append(GTK_BOX(left), hourly_forecast());
+
+    GtkWidget* right = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
+    gtk_widget_set_hexpand(right, TRUE);
+    gtk_widget_add_css_class(right, "right");
+
+    
+    gtk_box_append(GTK_BOX(root), left);
+    gtk_box_append(GTK_BOX(root), right);
 
     return root;
 }
@@ -115,11 +151,22 @@ GtkWidget* display_weather(){
  * 5- [PENDING] Add Daily Weather Forcast Container.
 */
 GtkWidget* weather_page(){
-    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    GtkWidget* root = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACE);
 
     // Appended input widget to search for location.
     gtk_box_append(GTK_BOX(root), read_input("Search location...", "Search", search_location));
-    gtk_box_append(GTK_BOX(root), display_weather());
+
+    WeatherModel* weatherData = get_weather_data();
+    if(!weatherData){
+        // Todo: Show a widget to ask user to search weather data.
+        log_debug("No Weather Data found.");
+    }
+    else{
+        log_debug("Weather data found!");
+        gtk_box_append(GTK_BOX(root), display_weather(weatherData));
+    }
+
+    clear_weather_model(weatherData);
 
     return root;
 }
