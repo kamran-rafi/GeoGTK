@@ -6,12 +6,14 @@
 #include "application.h"
 #include "src/utils/logger.h"
 #include "src/app.h"
+#include "src/utils/formatter.h"
 
 int main(int argc, char* argv[]){
 
     log_info("NAME=%s", APP_NAME);
     log_info("VERSION=%s", APP_VERSION);
     log_info("ID=%s", APP_ID);
+    
 
     /*
      * app() function starts application and once application is exited
